@@ -1,0 +1,66 @@
+{
+	"index.html": {
+		"resources": [
+			"scripts/angular/angular.min.js",
+			"scripts/mui/mui.js",
+			"scripts/jquery.min.js",
+			"scripts/angular/angular-sanitize.min.js",
+			"content/mui/mui.min.css",
+			"scripts/mui.power.js",
+			"scripts/angular/angular-sanitize.min.js.map",
+			"scripts/angular/angular.min.js.map"
+		],
+		"refer": []
+	},
+	"Index.html": {
+		"resources": [
+			"scripts/angular/angular.min.js",
+			"scripts/mui/mui.js",
+			"scripts/jquery.min.js",
+			"scripts/angular/angular-sanitize.min.js",
+			"content/mui/mui.min.css",
+			"scripts/mui.power.js",
+			"scripts/libs/dropload/dropload.min.js",
+			"scripts/libs/dropload/dropload.css",
+			"scripts/angular/angular-sanitize.min.js.map",
+			"scripts/angular/angular.min.js.map",
+			"fonts/fontawesome-webfont.woff",
+			"content/font-awesome.min.css",
+			"fonts/mui.ttf",
+			"content/mui.min.css"
+		],
+		"refer": [
+			"html/note/add.html",
+			"html/note/Add.html"
+		]
+	},
+	"html/note/add.html": {
+		"resources": [
+			"/scripts/mui/mui.js",
+			"/scripts/jquery.min.js",
+			"/content/mui.min.css",
+			"/scripts/angular/angular.min.js",
+			"/scripts/mui.power.js",
+			"/scripts/angular/angular-sanitize.min.js",
+			"scripts/angular/angular.min.js",
+			"scripts/mui/mui.js",
+			"scripts/jquery.min.js",
+			"scripts/angular/angular-sanitize.min.js",
+			"scripts/angular/angular-sanitize.min.js.map",
+			"scripts/angular/angular.min.js.map",
+			"scripts/mui.power.js",
+			"content/mui.min.css"
+		]
+	},
+	"html/note/Add.html": {
+		"resources": [
+			"scripts/angular/angular.min.js",
+			"scripts/mui/mui.js",
+			"scripts/jquery.min.js",
+			"fonts/mui.ttf",
+			"scripts/angular/angular-sanitize.min.js",
+			"scripts/mui.power.js",
+			"content/mui.min.css"
+		]
+	}
+}

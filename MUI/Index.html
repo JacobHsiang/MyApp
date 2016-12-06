@@ -1,0 +1,138 @@
+﻿<!DOCTYPE html>
+<html ng-app="myApp">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>我的首页</title>
+    <script src="scripts/mui/mui.js"></script>
+    <link href="content/mui.min.css" rel="stylesheet" />
+    <script src="scripts/jquery.min.js"></script>
+    <script src="scripts/angular/angular.min.js"></script>
+    <script src="scripts/angular/angular-sanitize.min.js"></script>
+    <script src="scripts/mui.power.js"></script>
+
+</head>
+<body ng-controller="MyController">
+    <header class="mui-bar mui-bar-nav">
+        <h1 class="mui-title">5imvc首页</h1>
+        <a class="mui-icon mui-icon-plusempty mui-pull-right" ng-tap="addNote()"></a>
+    </header>
+    <div class="mui-content">
+        <ul id="pullrefresh" class="mui-table-view mui-table-view-striped mui-table-view-condensed">
+            <li class="mui-table-view-cell" ng-repeat="note in notes">
+                <a href="javascript:;" ng-tap="selectInfo(req)" class="mui-navigate-right">
+                    <div class="mui-table">
+                        <div class="mui-table-cell mui-col-xs-10">
+                            <h4 class="mui-ellipsis">
+                                <span class="mui-icon mui-icon-chatbubble"></span>{{note.NContent}}
+                            </h4>
+                            <p class="mui-h6 mui-ellipsis mui-row">来至：{{note.Type}}({{note.Date}})</p>
+                        </div>
+                    </div>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <link href="scripts/libs/dropload/dropload.css" rel="stylesheet" />
+    <script src="scripts/libs/dropload/dropload.min.js"></script>
+    <script type="text/javascript">
+        var myApp = angular.module('myApp', ['ngSanitize']);
+        mui.angular.initApp(myApp, {
+            directives: ['ngTap']
+        })
+        myApp.controller('MyController', function ($scope, $http) {
+            var dropload;
+            var $pullrefresh = mui("#pullrefresh");
+
+            mui.plusReady(function () {
+                var view = plus.webview.currentWebview();
+                $scope.loadNotes = function () {
+                    var args = {};
+                    args.rows = mui.powerData.rows;
+                    args.page = $scope.page;
+                    $.post(mui.powerData.url + "Home/GetNoteList", args, function (data) {
+
+                        if ($scope.page > 1) {
+                            $.each((data.rows), function (index, e) {
+                                $scope.notes.push(e);
+                            });
+                        } else {
+                            $scope.notes = data.rows;
+                        }
+                        if (data.total > $scope.notes.length) {
+                            $scope.me.noData(false);
+                            $scope.me.resetload();
+                            $scope.me.unlock();
+
+                        } else {
+                            $scope.me.noData();
+                            $scope.me.resetload();
+                            $scope.me.lock('down');
+                        }
+
+                        $scope.$apply();
+                    })
+                }
+
+                $scope.$watch('page', function () {
+                    console.log($scope.page)
+                    if ($scope.page > 0)
+                        $scope.loadNotes();
+                })
+
+                function initPage() {
+                    $scope.page = 0;
+
+                    if (!dropload) {
+                        dropload = $('#pullrefresh').dropload({
+                            scrollArea: window,
+                            loadUpFn: function (me) {
+                                console.log('loadUpFn')
+                                $scope.me = me;
+
+                                if ($scope.page == 1) {
+                                    $scope.page = 0;
+                                    $scope.$apply();
+                                }
+
+                                $scope.page = 1;
+                                $scope.$apply();
+                            },
+                            loadDownFn: function (me) {
+                                console.log('loadDownFn')
+                                $scope.me = me;
+                                $scope.page++;
+                                $scope.$apply()
+                            },
+                            threshold: 50
+                        });
+                    } else {
+                        $scope.notes = {};
+                        $scope.$apply();
+                        dropload.unlock();
+                        dropload.noData(false);
+                        dropload.resetload();
+                        console.log('dropload')
+                    }
+                }
+
+                initPage();
+
+                $scope.addNote = function () {
+					mui.openWindow({
+						id:'addNote',
+						url:'html/note/Add.html',
+						extras:{}
+					})
+
+					$(window).off('index_reload').on('index_reload', function () {
+					    initPage();
+					});
+					
+                }
+            })
+
+        })
+    </script>
+</body>
+</html>
